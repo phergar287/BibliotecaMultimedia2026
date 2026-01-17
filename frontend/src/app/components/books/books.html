@@ -1,0 +1,28 @@
+<div class="container">
+    <header class="header">
+        <h1>Mis Libros</h1>
+        <button (click)="logout()" class="logout-btn">
+            Cerrar Sesión
+        </button>
+    </header>
+
+    <div *ngIf="isLoading" class="loading-container">
+        <span class="loader"></span>
+    </div>
+
+    <div *ngIf="!isLoading" class="books-grid">
+        <div class="book-card" *ngFor="let book of books">
+            <div class="book-cover">
+                <span>{{ book.titulo[0] }}</span>
+            </div>
+            <div class="book-info">
+                <h3>{{ book.titulo }}</h3>
+                <p class="author">{{ book.autor }}</p>
+                <div class="meta">
+                    <span class="isbn">ISBN: {{ book.isbn }}</span>
+                    <span class="date">{{ book.fechaPrestamo | date:'shortDate' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

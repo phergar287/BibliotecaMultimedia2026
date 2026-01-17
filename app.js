@@ -13,12 +13,19 @@ app.use(cors()); // Habilita CORS por si el front lo necesita
 app.use(express.json()); // Parsea body JSON
 
 // Rutas
-app.use('/', require('./routes/authRoutes'));
-app.use('/', require('./routes/bookRoutes'));
+const path = require('path');
 
-// Manejo de errores básico (404)
-app.use((req, res, next) => {
-    res.status(404).json({ mensaje: 'Ruta no encontrada' });
+// Rutas de API
+app.use('/api', require('./routes/authRoutes'));
+app.use('/api', require('./routes/bookRoutes'));
+
+// Servir archivos estáticos del frontend (Angular)
+// Nota: 'biblioteca-front' es el nombre por defecto, lo ajustaremos si es necesario al crear el proyecto
+app.use(express.static(path.join(__dirname, 'frontend/dist/biblioteca-front/browser')));
+
+// Cualquier otra ruta que no sea API, devuelve el index.html (SPA)
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/dist/biblioteca-front/browser/index.html'));
 });
 
 // Arrancar el servidor
