@@ -17,15 +17,15 @@ const protect = (req, res, next) => {
             // Añadir el usuario a la request (opcional, si quisiéramos usarlo luego)
             req.user = decoded;
 
-            next();
+            return next();
         } catch (error) {
             console.error(error);
-            res.status(403).json({ mensaje: 'Token inválido', error: error.message });
+            return res.status(403).json({ mensaje: 'Token inválido', error: error.message });
         }
     }
 
     if (!token) {
-        res.status(403).json({ mensaje: 'Token no autorizado o ausente' });
+        return res.status(403).json({ mensaje: 'Token no autorizado o ausente' });
     }
 };
 
